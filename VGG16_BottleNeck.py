@@ -19,9 +19,9 @@ plt.rcParams['figure.figsize'] = 10, 10
 #Import data
 
 #Change filepaths later
-train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
+train = pd.read_json('../train.json')
 y_train=train['is_iceberg']
-test = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json')
+test = pd.read_json('../test.json')
 
 ###### Deal with incident angle train and test data ################
 train['inc_angle']=pd.to_numeric(train['inc_angle'], errors='coerce')
