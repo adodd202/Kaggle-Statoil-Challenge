@@ -1,3 +1,5 @@
+#Reference: https://www.kaggle.com/devm2024/transfer-learning-with-vgg-16-cnn-aug-lb-0-1712
+
 import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 
@@ -15,6 +17,8 @@ plt.rcParams['figure.figsize'] = 10, 10
 #%matplotlib inline
 
 #Import data
+
+#Change filepaths later
 train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
 y_train=train['is_iceberg']
 test = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json')
@@ -162,7 +166,7 @@ def VGGtrainTest(X_train, X_angle, X_test):
                 gen_flow,
                 steps_per_epoch=24,
                 epochs=100,
-                shuffle=True,
+                #shuffle=True,
                 verbose=1,
                 validation_data=([X_holdout,X_angle_hold], Y_holdout),
                 callbacks=callbacks)
