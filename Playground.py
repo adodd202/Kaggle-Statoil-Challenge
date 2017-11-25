@@ -10,12 +10,13 @@ import json
 #with open('/Users/adodd202/Documents/GitHub/Kaggle-Statoil-Challenge/Data/train.json') as f:
 #   train = json.load(f)
 
-train = pd.read_json('/Users/adodd202/Documents/GitHub/Kaggle-Statoil-Challenge/Data/train.json')
+train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
 train['inc_angle'] = pd.to_numeric(train['inc_angle'], errors = 'coerce')
 
 print (train.shape)
+print (train['inc_angle'])
 
-test = pd.read_json('/Users/adodd202/Documents/GitHub/Kaggle-Statoil-Challenge/Data/test.json')
+test = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json')
 #test['inc_angle'] = pd.to_numeric(train['inc_angle'], errors = 'coerce')
 
 print (test.shape)

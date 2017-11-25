@@ -15,9 +15,9 @@ plt.rcParams['figure.figsize'] = 10, 10
 #%matplotlib inline
 
 #Import data
-train = pd.read_json('/Users/adodd202/Documents/GitHub/Kaggle-Statoil-Challenge/Data/train.json')
-target_train=train['is_iceberg']
-test = pd.read_json('/Users/adodd202/Documents/GitHub/Kaggle-Statoil-Challenge/Data/test.json')
+train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
+y_train=train['is_iceberg']
+test = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json')
 
 ###### Deal with incident angle train and test data ################
 train['inc_angle']=pd.to_numeric(train['inc_angle'], errors='coerce')
@@ -138,16 +138,16 @@ def getVGGModel():
 #Using K-fold Cross Validation with Data Augmentation.
 def VGGtrainTest(X_train, X_angle, X_test):
     K=3
-    folds = list(StratifiedKFold(n_splits=K, shuffle=True, random_state=16).split(X_train, target_train))
+    folds = list(StratifiedKFold(n_splits=K, shuffle=True, random_state=16).split(X_train, y_train))
     y_test_pred_log = 0
     y_train_pred_log = 0
-    y_valid_pred_log = 0.0*target_train
+    y_valid_pred_log = 0.0*y_train
     for j, (train_idx, test_idx) in enumerate(folds):
         print('\n===================FOLD=',j)
         X_train_cv = X_train[train_idx]
-        y_train_cv = target_train[train_idx]
+        y_train_cv = y_train[train_idx]
         X_holdout = X_train[test_idx]
-        Y_holdout= target_train[test_idx]
+        Y_holdout= y_train[test_idx]
         
         #Angle
         X_angle_cv=X_angle[train_idx]
@@ -169,10 +169,12 @@ def VGGtrainTest(X_train, X_angle, X_test):
 
         #Getting the Best Model
         galaxyModel.load_weights(filepath=file_path)
+
         #Getting Training Score
         score = galaxyModel.evaluate([X_train_cv,X_angle_cv], y_train_cv, verbose=0)
         print('Train loss:', score[0])
         print('Train accuracy:', score[1])
+
         #Getting Test Score
         score = galaxyModel.evaluate([X_holdout,X_angle_hold], Y_holdout, verbose=0)
         print('Test loss:', score[0])
@@ -193,8 +195,8 @@ def VGGtrainTest(X_train, X_angle, X_test):
     y_test_pred_log=y_test_pred_log/K
     y_train_pred_log=y_train_pred_log/K
 
-    print('\n Train Log Loss Validation= ',log_loss(target_train, y_train_pred_log))
-    print(' Test Log Loss Validation= ',log_loss(target_train, y_valid_pred_log))
+    print('\n Train Log Loss Validation= ',log_loss(y_train, y_train_pred_log))
+    print(' Test Log Loss Validation= ',log_loss(y_train, y_valid_pred_log))
     return y_test_pred_log
 
 preds=VGGtrainTest(X_train, X_angle, X_test)
