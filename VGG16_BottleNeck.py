@@ -19,9 +19,9 @@ plt.rcParams['figure.figsize'] = 10, 10
 #Import data
 
 #Change filepaths later
-train = pd.read_json('../train.json')
+train = pd.read_json('/../test.json') #online is '../test.json'
 y_train=train['is_iceberg']
-test = pd.read_json('../test.json')
+test = pd.read_json('../train.json') #online is '../train.json'
 
 ###### Deal with incident angle train and test data ################
 train['inc_angle']=pd.to_numeric(train['inc_angle'], errors='coerce')
@@ -131,9 +131,9 @@ def getVGGModel():
     
     model = Model(input=[base_model.input, input_2], output=predictions)
     
-    sgd = SGD(lr=1e-3, decay=1e-6, momentum=0.9, nesterov=True)
+    adam = Adam(lr=1e-5, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
     model.compile(loss='binary_crossentropy',
-                  optimizer=sgd,
+                  optimizer=adam,
                   metrics=['accuracy'])
     return model
 
