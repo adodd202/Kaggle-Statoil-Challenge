@@ -19,7 +19,7 @@ plt.rcParams['figure.figsize'] = 10, 10
 #Import data
 
 #Change filepaths later
-train = pd.read_json('/../test.json') #online is '../test.json'
+train = pd.read_json('../test.json') #online is '../test.json'
 y_train=train['is_iceberg']
 test = pd.read_json('../train.json') #online is '../train.json'
 
