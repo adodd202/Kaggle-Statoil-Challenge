@@ -19,9 +19,9 @@ plt.rcParams['figure.figsize'] = 10, 10
 #Import data
 
 #Change filepaths later
-train = pd.read_json('../test.json') #online is '../test.json'
+train = pd.read_json('../train.json') #online is '../test.json'
 y_train=train['is_iceberg']
-test = pd.read_json('../train.json') #online is '../train.json'
+test = pd.read_json('../test.json') #online is '../train.json'
 
 ###### Deal with incident angle train and test data ################
 train['inc_angle']=pd.to_numeric(train['inc_angle'], errors='coerce')
