@@ -20,8 +20,10 @@ plt.rcParams['figure.figsize'] = 10, 10
 
 #Change filepaths later
 train = pd.read_json('../train.json') #online is '../train.json'
+#train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
 y_train=train['is_iceberg']
-test = pd.read_json('../test.json') #online is '../test.json'
+test = pd.read_json('../test.json')
+#test = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json') #online is '../test.json'
 
 ###### Deal with incident angle train and test data ################
 train['inc_angle']=pd.to_numeric(train['inc_angle'], errors='coerce')
@@ -80,37 +82,7 @@ from keras.layers import Concatenate, Dense, LSTM, Input, concatenate
 from keras.preprocessing import image
 from keras.applications.vgg16 import preprocess_input	
 
-######################  DATA AUGMENTATION ##########################
-
-#Data Aug for multi-input
-from keras.preprocessing.image import ImageDataGenerator
-batch_size=64
-# Define the image transformations here
-gen = ImageDataGenerator(horizontal_flip = True,
-                         vertical_flip = True,
-                         width_shift_range = 0.,
-                         height_shift_range = 0.,
-                         channel_shift_range=0,
-                         zoom_range = 0.2,
-                         rotation_range = 10)
-
-# Here is the function that merges our two generators
-# We use the exact same generator with the same random seed for both the y and angle arrays
-def gen_flow_for_two_inputs(X1, X2, y):
-    genX1 = gen.flow(X1,y,  batch_size=batch_size,seed=55)
-    genX2 = gen.flow(X1,X2, batch_size=batch_size,seed=55)
-    while True:
-            X1i = genX1.next()
-            X2i = genX2.next()
-            #Assert arrays are equal - this was for peace of mind, but slows down training
-            #np.testing.assert_array_equal(X1i[0],X2i[0])
-            yield [X1i[0], X2i[1]], X1i[1]
-
-# Finally create generator
-def get_callbacks(filepath, patience=2):
-   es = EarlyStopping('val_loss', patience=10, mode="min")
-   msave = ModelCheckpoint(filepath, save_best_only=True)
-   return [es, msave]
+######################  MODEL CREATION ##########################
 
 def getVGGModel():
     input_2 = Input(shape=[1], name="angle")
@@ -129,85 +101,27 @@ def getVGGModel():
     
     predictions = Dense(1, activation='sigmoid')(merge_one)
     
-    model = Model(input=[base_model.input, input_2], output=predictions)
+    model = Model(inputs=[base_model.input, input_2], outputs=predictions)
     
-    adam = Adam(lr=1e-3, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
-    model.compile(loss='binary_crossentropy',
-                  optimizer=adam,
-                  metrics=['accuracy'])
+    # adam = Adam(lr=1e-3, epsilon = 1e-8, beta_1 = .9, beta_2 = .999)
+    # model.compile(loss='binary_crossentropy',
+    #               optimizer=adam,
+    #               metrics=['accuracy'])
     return model
 
-################
+galaxyModel= getVGGModel()
+j = 1 #put the file name you would like here.
+file_path = "%s_aug_model_weights.hdf5"%j
+galaxyModel.load_weights(filepath=file_path)	
 
-#Using K-fold Cross Validation with Data Augmentation.
-def VGGtrainTest(X_train, X_angle, X_test):
-    K=3
-    folds = list(StratifiedKFold(n_splits=K, shuffle=True, random_state=16).split(X_train, y_train))
-    y_test_pred_log = 0
-    y_train_pred_log = 0
-    y_valid_pred_log = 0.0*y_train
-    for j, (train_idx, test_idx) in enumerate(folds):
-        print('\n===================FOLD=',j)
-        X_train_cv = X_train[train_idx]
-        y_train_cv = y_train[train_idx]
-        X_holdout = X_train[test_idx]
-        Y_holdout= y_train[test_idx]
-        
-        #Angle
-        X_angle_cv=X_angle[train_idx]
-        X_angle_hold=X_angle[test_idx]
-
-        #define file path and get callbacks
-        file_path = "%s_aug_model_weights.hdf5"%j
-        callbacks = get_callbacks(filepath=file_path, patience=5)
-        gen_flow = gen_flow_for_two_inputs(X_train_cv, X_angle_cv, y_train_cv)
-        galaxyModel= getVGGModel()
-        galaxyModel.fit_generator(
-                gen_flow,
-                steps_per_epoch=24,
-                epochs=100,
-                #shuffle=True,
-                verbose=1,
-                validation_data=([X_holdout,X_angle_hold], Y_holdout),
-                callbacks=callbacks)
-
-        #Getting the Best Model
-        galaxyModel.load_weights(filepath=file_path)
-
-        #Getting Fold Training Score
-        score = galaxyModel.evaluate([X_train_cv,X_angle_cv], y_train_cv, verbose=0)
-        print('Train loss:', score[0])
-        print('Train accuracy:', score[1])
-
-        #Getting Fold Validation Score
-        score = galaxyModel.evaluate([X_holdout,X_angle_hold], Y_holdout, verbose=0)
-        print('Validation loss:', score[0])
-        print('Validation accuracy:', score[1])
-        
-        pred_valid=galaxyModel.predict([X_holdout,X_angle_hold])
-        y_valid_pred_log[test_idx] = pred_valid.reshape(pred_valid.shape[0])
-
-        #Getting Test Scores
-        temp_test=galaxyModel.predict([X_test, X_test_angle])
-        y_test_pred_log+=temp_test.reshape(temp_test.shape[0])
-
-        #Getting Train Scores
-        temp_train=galaxyModel.predict([X_train, X_angle])
-        y_train_pred_log+=temp_train.reshape(temp_train.shape[0])
-
-    y_test_pred_log=y_test_pred_log/K
-    y_train_pred_log=y_train_pred_log/K
-
-    print('\n Train Log Loss Validation= ',log_loss(y_train, y_train_pred_log))
-    print(' Validation Log Loss Validation= ',log_loss(y_train, y_valid_pred_log))
-    return y_test_pred_log
-
-preds=VGGtrainTest(X_train, X_angle, X_test)
+# Getting Test Scores
+temp_test=galaxyModel.predict([X_test, X_test_angle])
+preds = temp_test.reshape(temp_test.shape[0])
 
 #Submission for each day.
 submission = pd.DataFrame()
 submission['id']=test['id']
 submission['is_iceberg']=preds
-submission.to_csv('sub.csv', index=False)
+submission.to_csv('sub2.csv', index=False)
 
 
