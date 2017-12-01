@@ -214,7 +214,8 @@ if __name__ == "__main__":
         os.makedirs(args.save_dir)
 
     # load data
-    (x_train, y_train), (x_test, y_test) = load_icebergs()
+    (x_train, y_train), (x_test, y_test) = load_mnist()
+    #(x_train, y_train), (x_test, y_test) = load_icebergs()
     # print (x_train.shape)
     # print (y_train.shape)
 
@@ -226,6 +227,8 @@ if __name__ == "__main__":
                                 n_class=len(np.unique(np.argmax(y_train, 1))),
                                 num_routing=args.num_routing)
     model.summary()
+
+    print ("number of classes", n_class)
 
     # train or test
     if args.weights is not None:  # init the model weights with provided one
