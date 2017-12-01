@@ -243,6 +243,9 @@ if __name__ == "__main__":
 
     print ("some x_test", x_test[0:10])
 
+    print (np.amax(x_train))
+    print (np.amin(x_train))
+
 # I've tried making the data positive.
 # I've made the data one-hot.
 # I refuse to believe this network can't learn anything....
