@@ -228,6 +228,7 @@ if __name__ == "__main__":
                                 num_routing=args.num_routing)
     model.summary()
 
+    n_class=len(np.unique(np.argmax(y_train, 1)))
     print ("number of classes", n_class)
 
     # train or test
