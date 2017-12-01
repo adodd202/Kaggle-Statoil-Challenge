@@ -235,6 +235,10 @@ if __name__ == "__main__":
     print (y_test.shape)
 
     print ("some x_test", x_test[0:10])
+    print (np.amax(x_test[0]))
+    print (np.amin(x_test[0]))
+    print (np.average(x_test[0]))
+
     print ("some y_test", y_test[0:10])
 
     # define model
