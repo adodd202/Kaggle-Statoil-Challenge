@@ -225,8 +225,8 @@ if __name__ == "__main__":
         os.makedirs(args.save_dir)
 
     # load data
-    #(x_train, y_train), (x_test, y_test) = load_icebergs()
-    (x_train, y_train), (x_test, y_test) = load_mnist()
+    (x_train, y_train), (x_test, y_test) = load_icebergs()
+    #(x_train, y_train), (x_test, y_test) = load_mnist()
 
     print (x_train.shape)
     print (y_train.shape)
