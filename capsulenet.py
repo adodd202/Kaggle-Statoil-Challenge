@@ -181,7 +181,6 @@ def load_icebergs():
 
     enc = OneHotEncoder()
     y = enc.fit([y])
-    #print (type(y))
 
     #Generate the training data
     x_band_1=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_1"]])
@@ -191,6 +190,12 @@ def load_icebergs():
     x_data = np.concatenate([x_band_1[:, :, :, np.newaxis]
                           , x_band_2[:, :, :, np.newaxis]
                          , x_band_3[:, :, :, np.newaxis]], axis=-1)
+
+
+    print (type(y))
+    print (y.shape)
+    print (type(x_data))
+    print (x_shape.shape)
 
     x_train,x_test,y_train,y_test = train_test_split(x_data,y,test_size=0.2)
 
