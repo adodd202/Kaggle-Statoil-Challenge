@@ -194,7 +194,7 @@ def load_icebergs():
     x_band_1= x_band_1/np.amax(x_band_1)
     x_band_2=-1*np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_2"]])
     x_band_2= x_band_2/np.amax(x_band_2)
-    x_band_3=1*(x_band_1+x_band_2)/2
+    x_band_3=(x_band_1+x_band_2)/2
     x_band_3= x_band_3/np.amax(x_band_3)
     #X_band_3=np.array([np.full((75, 75), angel).astype(np.float32) for angel in train["inc_angle"]])
     x_data = np.concatenate([x_band_1[:, :, :, np.newaxis]
@@ -238,8 +238,8 @@ if __name__ == "__main__":
         os.makedirs(args.save_dir)
 
     # load data
-    (x_train, y_train), (x_test, y_test) = load_icebergs()
-    #(x_train, y_train), (x_test, y_test) = load_mnist()
+    #(x_train, y_train), (x_test, y_test) = load_icebergs()
+    (x_train, y_train), (x_test, y_test) = load_mnist()
 
     print (x_train.shape)
     print (y_train.shape)
