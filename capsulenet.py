@@ -234,8 +234,8 @@ if __name__ == "__main__":
     print (x_test.shape)
     print (y_test.shape)
 
-    print ("some x_test", x_test.shape[0:10])
-    print ("some y_test", y_test.shape[0:10])
+    print ("some x_test", x_test[0:10])
+    print ("some y_test", y_test[0:10])
 
     # define model
     model, eval_model = CapsNet(input_shape=x_train.shape[1:],
