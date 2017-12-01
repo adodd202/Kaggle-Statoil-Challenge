@@ -190,13 +190,19 @@ def load_icebergs():
     y[np.arange(y_old.size),y_old] = 1
 
     #Generate the training data
-    x_band_1=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_1"]])
-    x_band_2=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_2"]])
-    x_band_3=(x_band_1+x_band_2)/2
+    x_band_1=-1*np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_1"]])
+    x_band_1= x_band_1/np.amax(x_band_1)
+    x_band_2=-1*np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_2"]])
+    x_band_2= x_band_2/np.amax(x_band_2)
+    x_band_3=1*(x_band_1+x_band_2)/2
+    x_band_3= x_band_3/np.amax(x_band_3)
     #X_band_3=np.array([np.full((75, 75), angel).astype(np.float32) for angel in train["inc_angle"]])
     x_data = np.concatenate([x_band_1[:, :, :, np.newaxis]
                           , x_band_2[:, :, :, np.newaxis]
                          , x_band_3[:, :, :, np.newaxis]], axis=-1)
+
+    #lets multiply by -1, and divide by max value for each pic
+
 
 
     print (type(y))
@@ -243,8 +249,8 @@ if __name__ == "__main__":
 
     print ("some x_test", x_test[0:10])
 
-    print (np.amax(x_train))
-    print (np.amin(x_train))
+    print (np.amax(x_train[0]))
+    print (np.amin(x_train[0]))
 
 # I've tried making the data positive.
 # I've made the data one-hot.
