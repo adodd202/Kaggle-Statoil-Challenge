@@ -225,23 +225,17 @@ if __name__ == "__main__":
         os.makedirs(args.save_dir)
 
     # load data
-    (x_train, y_train), (x_test, y_test) = load_icebergs()
-    (x_train, y1_train), (x_test, y_test) = load_mnist()
-    (x_train, y2_train), (x_test, y_test) = load_icebergs()
-    # print (x_train.shape)
-    # print (y_train.shape)
+    #(x_train, y_train), (x_test, y_test) = load_icebergs()
+    (x_train, y_train), (x_test, y_test) = load_mnist()
 
-    print (y1_train.shape)
-    print (y2_train.shape)
+    print (x_train.shape)
+    print (y_train.shape)
 
-    n_class=len(np.unique(np.argmax(y_train, 1)))
-    print ("number of classes mnist", n_class)
+    print (x_test.shape)
+    print (y_test.shape)
 
-    n_class=len(np.unique(np.argmax(y_train, 1)))
-    print ("number of classes iceberg", n_class)
-
-    # print (x_test.shape)
-    # print (y_test.shape)
+    print ("some x_test", x_test.shape[0:10])
+    print ("some y_test", y_test.shape[0:10])
 
     # define model
     model, eval_model = CapsNet(input_shape=x_train.shape[1:],
