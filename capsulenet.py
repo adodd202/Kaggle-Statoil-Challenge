@@ -173,7 +173,8 @@ def load_mnist():
 
 def load_icebergs():
     #Import data
-    train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
+    train = pd.read_json('../train.json') #online is '../train.json'
+    #train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
     y=train['is_iceberg']
 
     #Generate the training data
