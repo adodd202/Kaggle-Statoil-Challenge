@@ -176,6 +176,7 @@ def load_icebergs():
     train = pd.read_json('../train.json') #online is '../train.json'
     #train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
     y=train['is_iceberg']
+    print (type(y))
 
     #Generate the training data
     x_band_1=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_1"]])
