@@ -177,11 +177,10 @@ def load_icebergs():
     #Import data
     train = pd.read_json('../train.json') #online is '../train.json'
     #train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
-    y=train['is_iceberg']
+    y_old=train['is_iceberg']
 
-    onehot_encoder = OneHotEncoder(sparse=False)
-    y = y.reshape(len(y), 1)
-    y = onehot_encoder.fit_transform(y)
+    y = np.zeros((y_old.size, 2))
+    y[np.arange(y_old.size),y_old] = 1
 
     #Generate the training data
     x_band_1=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_1"]])
