@@ -180,7 +180,7 @@ def load_icebergs():
     y=train['is_iceberg']
 
     enc = OneHotEncoder()
-    enc.fit(y)
+    enc.fit([y])
     #print (type(y))
 
     #Generate the training data
