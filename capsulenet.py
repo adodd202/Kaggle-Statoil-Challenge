@@ -23,6 +23,7 @@ from keras.utils import to_categorical
 from capsulelayers import CapsuleLayer, PrimaryCap, Length, Mask
 import pandas as pd
 from sklearn.model_selection import train_test_split 
+from sklearn.preprocessing import OneHotEncoder
 
 K.set_image_data_format('channels_last')
 
@@ -172,11 +173,15 @@ def load_mnist():
     return (x_train, y_train), (x_test, y_test)
 
 def load_icebergs():
+
     #Import data
     train = pd.read_json('../train.json') #online is '../train.json'
     #train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
     y=train['is_iceberg']
-    print (type(y))
+
+    enc = OneHotEncoder()
+    enc.fit(y)
+    #print (type(y))
 
     #Generate the training data
     x_band_1=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_1"]])
