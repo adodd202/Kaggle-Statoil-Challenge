@@ -195,7 +195,7 @@ def load_icebergs():
     print (type(y))
     print (y.shape)
     print (type(x_data))
-    print (x_shape.shape)
+    print (x_data.shape)
 
     x_train,x_test,y_train,y_test = train_test_split(x_data,y,test_size=0.2)
 
