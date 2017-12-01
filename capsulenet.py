@@ -117,8 +117,15 @@ def train(model, data, args):
 
     # Begin: Training with data augmentation ---------------------------------------------------------------------#
     def train_generator(x, y, batch_size, shift_fraction=0.):
-        train_datagen = ImageDataGenerator(width_shift_range=shift_fraction,
-                                           height_shift_range=shift_fraction)  # shift up to 2 pixel for MNIST
+        # train_datagen = ImageDataGenerator(width_shift_range=shift_fraction,
+        #                                    height_shift_range=shift_fraction)  # shift up to 2 pixel for MNIST
+        train_datagen = ImageDataGenerator(horizontal_flip = True,
+                         vertical_flip = True,
+                         width_shift_range = 0.,
+                         height_shift_range = 0.,
+                         channel_shift_range=0,
+                         zoom_range = 0.2,
+                         rotation_range = 10)
         generator = train_datagen.flow(x, y, batch_size=batch_size)
         while 1:
             x_batch, y_batch = generator.next()
@@ -183,8 +190,8 @@ def load_icebergs():
     y[np.arange(y_old.size),y_old] = 1
 
     #Generate the training data
-    x_band_1=-1 * np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_1"]])
-    x_band_2=-1 * np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_2"]])
+    x_band_1=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_1"]])
+    x_band_2=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_2"]])
     x_band_3=(x_band_1+x_band_2)/2
     #X_band_3=np.array([np.full((75, 75), angel).astype(np.float32) for angel in train["inc_angle"]])
     x_data = np.concatenate([x_band_1[:, :, :, np.newaxis]
@@ -235,9 +242,10 @@ if __name__ == "__main__":
     print (y_test.shape)
 
     print ("some x_test", x_test[0:10])
-    print (np.amax(x_test[0]))
-    print (np.amin(x_test[0]))
-    print (np.average(x_test[0]))
+
+# I've tried making the data positive.
+# I've made the data one-hot.
+# I refuse to believe this network can't learn anything....
 
     print ("some y_test", y_test[0:10])
 
