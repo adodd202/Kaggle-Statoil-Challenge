@@ -19,11 +19,11 @@ plt.rcParams['figure.figsize'] = 10, 10
 #Import data
 
 #Change filepaths later
-train = pd.read_json('../train.json') #online is '../train.json'
-#train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
+#train = pd.read_json('../train.json') #online is '../train.json'
+train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
 y_train=train['is_iceberg']
-test = pd.read_json('../test.json')
-#test = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json') #online is '../test.json'
+#test = pd.read_json('../test.json')
+test = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json') #online is '../test.json'
 
 ###### Deal with incident angle train and test data ################
 train['inc_angle']=pd.to_numeric(train['inc_angle'], errors='coerce')
@@ -45,7 +45,6 @@ X_train = np.concatenate([X_band_1[:, :, :, np.newaxis]
                          , X_band_3[:, :, :, np.newaxis]], axis=-1)
 
 
-
 X_band_test_1=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in test["band_1"]])
 X_band_test_2=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in test["band_2"]])
 X_band_test_3=(X_band_test_1+X_band_test_2)/2
@@ -53,6 +52,7 @@ X_band_test_3=(X_band_test_1+X_band_test_2)/2
 X_test = np.concatenate([X_band_test_1[:, :, :, np.newaxis]
                           , X_band_test_2[:, :, :, np.newaxis]
                          , X_band_test_3[:, :, :, np.newaxis]], axis=-1)
+
 
 ######################  IMPORT KERAS  ##############################
 
@@ -72,12 +72,12 @@ from keras.layers.advanced_activations import LeakyReLU, PReLU
 from keras.optimizers import SGD
 from keras.callbacks import ModelCheckpoint, Callback, EarlyStopping
 
-from keras.datasets import cifar10
-from keras.applications.inception_v3 import InceptionV3
+#from keras.datasets import cifar10
+#from keras.applications.inception_v3 import InceptionV3
 from keras.applications.vgg16 import VGG16
-from keras.applications.xception import Xception
-from keras.applications.mobilenet import MobileNet
-from keras.applications.vgg19 import VGG19
+#from keras.applications.xception import Xception
+#from keras.applications.mobilenet import MobileNet
+#from keras.applications.vgg19 import VGG19
 from keras.layers import Concatenate, Dense, LSTM, Input, concatenate
 from keras.preprocessing import image
 from keras.applications.vgg16 import preprocess_input	

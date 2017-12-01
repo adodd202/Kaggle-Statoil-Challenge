@@ -4,8 +4,6 @@ import numpy as np # linear algebra
 import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 
 #Mandatory imports
-import numpy as np
-import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import log_loss
 from sklearn.model_selection import StratifiedKFold, StratifiedShuffleSplit
@@ -19,9 +17,12 @@ plt.rcParams['figure.figsize'] = 10, 10
 #Import data
 
 #Change filepaths later
-train = pd.read_json('../train.json') #online is '../train.json'
+#train = pd.read_json('../train.json') #online is '../train.json'
+train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
 y_train=train['is_iceberg']
-test = pd.read_json('../test.json') #online is '../test.json'
+#test = pd.read_json('../test.json')
+test = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json') #online is '../test.json'
+
 
 ###### Deal with incident angle train and test data ################
 train['inc_angle']=pd.to_numeric(train['inc_angle'], errors='coerce')
@@ -183,7 +184,7 @@ def VGGtrainTest(X_train, X_angle, X_test):
         score = galaxyModel.evaluate([X_holdout,X_angle_hold], Y_holdout, verbose=0)
         print('Validation loss:', score[0])
         print('Validation accuracy:', score[1])
-        
+
         pred_valid=galaxyModel.predict([X_holdout,X_angle_hold])
         y_valid_pred_log[test_idx] = pred_valid.reshape(pred_valid.shape[0])
 
