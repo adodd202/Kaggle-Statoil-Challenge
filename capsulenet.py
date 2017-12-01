@@ -183,8 +183,8 @@ def load_icebergs():
     y[np.arange(y_old.size),y_old] = 1
 
     #Generate the training data
-    x_band_1=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_1"]])
-    x_band_2=np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_2"]])
+    x_band_1=-1 * np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_1"]])
+    x_band_2=-1 * np.array([np.array(band).astype(np.float32).reshape(75, 75) for band in train["band_2"]])
     x_band_3=(x_band_1+x_band_2)/2
     #X_band_3=np.array([np.full((75, 75), angel).astype(np.float32) for angel in train["inc_angle"]])
     x_data = np.concatenate([x_band_1[:, :, :, np.newaxis]
