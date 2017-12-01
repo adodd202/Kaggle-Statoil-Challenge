@@ -179,7 +179,7 @@ def load_icebergs():
     #train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
     y=train['is_iceberg']
 
-    enc = OneHotEncoder()
+    enc = OneHotEncoder(sparse = False)
     y = enc.fit([y])
 
     #Generate the training data
