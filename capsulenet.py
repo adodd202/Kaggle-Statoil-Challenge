@@ -104,7 +104,7 @@ def train(model, data, args):
     lr_decay = callbacks.LearningRateScheduler(schedule=lambda epoch: args.lr * (0.9 ** epoch))
 
     # compile the model
-    model.compile(optimizer=optimizers.Adam(lr=args.lr),
+    model.compile(optimizer=optimizers.SGD(lr=args.lr),#(optimizer=optimizers.Adam(lr=args.lr),
                   loss=[margin_loss, 'mse'],
                   loss_weights=[1., args.lam_recon],
                   metrics={'capsnet': 'accuracy'})
@@ -202,8 +202,6 @@ def load_icebergs():
                          , x_band_3[:, :, :, np.newaxis]], axis=-1)
 
     #lets multiply by -1, and divide by max value for each pic
-
-
 
     # print (type(y))
     # print (y.shape)
