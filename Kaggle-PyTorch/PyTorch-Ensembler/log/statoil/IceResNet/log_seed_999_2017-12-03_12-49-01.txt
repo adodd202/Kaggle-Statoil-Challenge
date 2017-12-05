@@ -1,8 +1,0 @@
-Save path : ./log//statoil/IceResNet/
-{'base_factor': 32, 'batch_size': 64, 'current_time': '2017-12-03_12-48-58', 'data_path': 'd:/db/data/ice/', 'dataset': 'statoil', 'decay': 0.0005, 'epochs': 66, 'evaluate': False, 'gammas': [0.1, 0.1], 'imgDim': 2, 'lr': 0.0005, 'lr_period': 10, 'manualSeed': 999, 'momentum': 0.95, 'ngpu': 1, 'num_classes': 1, 'optim': 'adam', 'print_freq': 50, 'resume': '', 'save_path': './log/', 'save_path_model': './log/', 'schedule': [150, 225], 'start_epoch': 0, 'validationRatio': 0.11, 'workers': 0}
-Random Seed: 999
-python version : 3.6.2 |Anaconda custom (64-bit)| (default, Sep 19 2017, 08:03:39) [MSC v.1900 64 bit (AMD64)]
-torch  version : 0.2.1+a4fc05a
-cudnn  version : None
-Available models:['dropout', 'pool', 'relu', 'resnext', 'sesnet', 'wrn']
-=> Final model name 'IceResNet'
