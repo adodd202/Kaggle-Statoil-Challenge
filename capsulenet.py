@@ -222,7 +222,7 @@ if __name__ == "__main__":
     # setting the hyper parameters
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--batch_size', default=100, type=int)
+    parser.add_argument('--batch_size', default=20, type=int) #100
     parser.add_argument('--epochs', default=75, type=int)
     parser.add_argument('--lam_recon', default=8.44, type=float)  # 784 * 0.0005, paper uses sum of SE, here uses MSE
     parser.add_argument('--num_routing', default=3, type=int)  # num_routing should > 0
@@ -246,7 +246,6 @@ if __name__ == "__main__":
 
     print (x_test.shape)
     print (y_test.shape)
-
     print ("some x_test", x_test[0:10])
 
     print (np.amax(x_train[0]))
