@@ -34,5 +34,5 @@ from utils import *
 
 input_folder = '/home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth'
 best_base = '/home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth/0.169687_30_0.160483_submission.csv'
-output_path = 'home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth/bestModel.csv'
+output_path = '/home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth/bestModel.csv'
 MinMaxBestBaseStacking(input_folder, best_base, output_path)
