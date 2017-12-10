@@ -26,6 +26,8 @@ import nnmodels as nnmodels
 from os import listdir
 import sys
 
+from utils import *
+
 #'/home/adodd202/train.json'
 
 #/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth
