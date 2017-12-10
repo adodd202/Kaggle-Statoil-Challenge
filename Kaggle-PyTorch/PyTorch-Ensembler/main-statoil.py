@@ -150,13 +150,13 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         logger.append([state['lr'], train_result, val_result, accuracy_tr, accuracy_val])
 
 
-        # if (float(val_result) < float(0.175) and float(train_result) < float(0.175)):
-        #     print_log("=>>EARLY STOPPING", log)
-        #     df_pred = BinaryInference(model, args)
-        #     savePred(df_pred, model, str(val_result) + '_' + str(epoch), train_result, args.save_path_model)
-        #     # break
-        #     continue
-        #     # adjust_learning_rate(optimizer, epoch)
+        if (float(val_result) < float(0.175) and float(train_result) < float(0.175)):
+            print_log("=>>EARLY STOPPING", log)
+            df_pred = BinaryInference(model, args)
+            savePred(df_pred, model, str(val_result) + '_' + str(epoch), train_result, args.save_path_model)
+            # break
+            continue
+            # adjust_learning_rate(optimizer, epoch)
 
     tqdm.write('TRAIN Loss: {:.6f}'.format(running_loss / (len(trainset))), log)
     tqdm.write('VALIDATION Loss: {:.6f}'.format(eval_loss / (len(testset))), log)
