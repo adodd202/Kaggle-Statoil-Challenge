@@ -2,6 +2,7 @@ from __future__ import print_function
 
 import argparse
 import sys
+import numpy as np
 
 import torch.backends.cudnn as cudnn
 from tqdm import tqdm
