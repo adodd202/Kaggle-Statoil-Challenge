@@ -24,6 +24,7 @@ from sklearn.utils import shuffle
 from torch.autograd import Variable
 from torch.utils.data import TensorDataset
 from torchvision.transforms import *
+import numpy as np
 
 import nnmodels as nnmodels
 
