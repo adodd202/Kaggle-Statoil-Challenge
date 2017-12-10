@@ -92,7 +92,7 @@ class WideResNet(nn.Module):
         out = F.max_pool2d(out, 4)
         # out = F.avg_pool2d(out, 2)
         out = out.view(out.size(0), -1)
-        # print(out.data.shape)
+        print(out.data.shape)
         out = self.fc(out)
 
         if self.num_classes == 1:  # BCE Loss,
