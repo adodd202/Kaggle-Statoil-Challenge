@@ -36,7 +36,7 @@ parser.add_argument('--dataset', type=str, default='statoil', choices=['cifar10'
 parser.add_argument('--imgDim', default=2, type=int, help='number of Image input dimensions')
 parser.add_argument('--base_factor', default=32, type=int, help='SENet base factor')
 
-parser.add_argument('--epochs', type=int, default=66, help='Number of epochs to train.')
+parser.add_argument('--epochs', type=int, default=1, help='Number of epochs to train.') #66 epoch standard
 parser.add_argument('--current_time', type=str, default=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'),
                     help='Current time.')
 
@@ -183,9 +183,9 @@ if __name__ == '__main__':
 
     # vis = visdom.Visdom(port=6006)
     trainloader, testloader, trainset, testset = loadDB(args)
-    # for i in tqdm(range(0, 51)):
-    for i in range(0, 51):
-        models = ['senet']
+    for i in tqdm(range(0, 51)):
+    #for i in range(0, 51):
+        models = ['senet', 'wrn']
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             fixSeed(args)
