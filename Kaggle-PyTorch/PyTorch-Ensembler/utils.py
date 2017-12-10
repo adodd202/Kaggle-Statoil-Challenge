@@ -24,13 +24,11 @@ from sklearn.utils import shuffle
 from torch.autograd import Variable
 from torch.utils.data import TensorDataset
 from torchvision.transforms import *
-import random
-import numpy as np
 
 import nnmodels as nnmodels
 
 from os import listdir
-
+import sys
 
 # __all__ = ['Logger', 'LoggerMonitor', 'savefig']
 # __all__ = ['get_mean_and_std', 'init_params', 'mkdir_p', 'AverageMeter', 'accuracy']
@@ -379,13 +377,15 @@ class RecorderMeter(object):
         else:
             return self.epoch_accuracy[:self.current_epoch, 1].max()
 
+
     def plot_curve(self, save_path, args, model):
-        title = 'PyTorch Model:' + str((type(model).__name__)).upper() + ', DataSet:' + str(args.dataset).upper() + ',' \
-                + 'Params: %.2fM' % (
-            sum(p.numel() for p in model.parameters()) / 1000000.0) + ', Seed: %.2f' % args.manualSeed
+        title = 'PyTorch-Ensembler:' + str((type(model).__name__)).upper() + ',LR:' + str(args.lr) +  ',DataSet:' + str(args.dataset).upper() + ',' + '\n'\
+                + ',Params: %.2fM' % (sum(p.numel() for p in model.parameters()) / 1000000.0) + ',Seed: %.2f' % args.manualSeed + \
+                ",Torch: {}".format(torch.__version__) + ", Batch:{}".format(args.batch_size)
+
         dpi = 80
         width, height = 1200, 800
-        legend_fontsize = 10
+        legend_fontsize = 14
         scale_distance = 48.8
         figsize = width / float(dpi), height / float(dpi)
 
@@ -451,10 +451,19 @@ def sgdr(period, batch_idx):
     return 0.5 * (1.0 + math.cos(radians))
 
 
-def adjust_learning_rate(optimizer, epoch):
-    """Sets the learning rate to the initial LR decayed by 10 every 30 epochs"""
-    lr = lr * (0.01 ** (epoch // 10))
-    for param_group in optimizer.state_dict()['param_groups']:
+# def adjust_learning_rate(optimizer, epoch):
+#     global lr
+#     """Sets the learning rate to the initial LR decayed by 10 every 30 epochs"""
+#     lr = lr * (0.01 ** (epoch // 10))
+#     for param_group in optimizer.state_dict()['param_groups']:
+#         param_group['lr'] = lr
+
+def adjust_learning_rate(optimizer, epoch, args):
+    """Sets the learning rate to the initial LR decayed by 10 after 20 and 40  and 60 epochs"""
+    # global lr
+    lr = args.lr * (0.1 ** (epoch // 25)) * (0.1 ** (epoch //  45)) * (0.1 ** (epoch //  55))
+
+    for param_group in optimizer.param_groups:
         param_group['lr'] = lr
 
 
@@ -469,9 +478,7 @@ def fixSeed(args):
 
 def getStatoilTrainValLoaders(args):
     fixSeed(args)
-
     local_data = pd.read_json('/home/adodd202/train.json')
-    #local_data = pd.read_json(args.data_path + '/train.json')
 
     local_data = shuffle(local_data)  # otherwise same validation set each time!
     local_data = local_data.reindex(np.random.permutation(local_data.index))
@@ -502,11 +509,12 @@ def selectModel(args, m):
     model = None
     print("==> Creating model '{}'".format(m))
     if m.startswith('senet'):  # block, n_size=1, num_classes=1, num_rgb=2, base=32
-        model = nnmodels.senetXX_generic(args.num_classes, args.imgDim, args.base_factor)
-        args.batch_size = 16
-        args.batch_size = 16
-        args.epochs = 85
-        args.lr = 0.00005 * 2 * 2
+        # model = nnmodels.senetXX_generic(args.num_classes, args.imgDim, args.base_factor)
+        model = nnmodels.senet32_RG_1_classes(args.num_classes, args.imgDim)
+        args.batch_size = 64
+        args.batch_size = 64
+        args.epochs = 76
+        args.lr =  0.0005 # do not change !!! optimal for the Statoil data set
 
     if m.startswith('densenet'):
         model = nnmodels.densnetXX_generic(args.num_classes, args.imgDim)
@@ -516,26 +524,27 @@ def selectModel(args, m):
         args.lr = 0.05
     if m.startswith('minidensenet'):
         model = nnmodels.minidensnetXX_generic(args.num_classes, args.imgDim)
-        args.batch_size = 256
-        args.batch_size = 256
+        args.batch_size = 32
+        args.batch_size = 32
         args.epochs = 76
         args.lr = 0.0005 * 2
     if m.startswith('vggnet'):
         model = nnmodels.vggnetXX_generic(args.num_classes, args.imgDim)
-        args.batch_size = 256
-        args.batch_size = 256
-        args.epochs = 73
+        args.batch_size = 64
+        args.batch_size = 64
+        args.epochs = 88
         args.lr = 0.0005
     if m.startswith('resnext'):
         model = nnmodels.resnetxtXX_generic(args.num_classes, args.imgDim)
-        args.batch_size = 64
-        args.batch_size = 64
-        args.epochs = 56
+        args.batch_size = 16
+        args.batch_size = 16
+        args.epochs = 66
+        args.lr = 0.0005
     if m.startswith('lenet'):
         model = nnmodels.lenetXX_generic(args.num_classes, args.imgDim)
         args.batch_size = 64
         args.batch_size = 64
-        args.epochs = 56
+        args.epochs = 88
 
     if m.startswith('wrn'):
         model = nnmodels.wrnXX_generic(args.num_classes, args.imgDim)
@@ -545,14 +554,29 @@ def selectModel(args, m):
 
     if m.startswith('simple'):
         model = nnmodels.simpleXX_generic(args.num_classes, args.imgDim)
+        args.batch_size = 128
+        args.batch_size = 128
+        args.epochs = 120
+
+    if m.startswith('unet'):
+        model = nnmodels.unetXX_generic(args.num_classes, args.imgDim)
         args.batch_size = 64
         args.batch_size = 64
-        args.epochs = 100
+        args.epochs = 50
+
+    if m.startswith('link'):
+        model = nnmodels.linknetXX_generic(args.num_classes, args.imgDim)
+        args.batch_size = 64
+        args.batch_size = 64
+        args.epochs = 50
 
     return model
 
 
 def BinaryInference(local_model, args):
+    if args.use_cuda:
+        local_model.cuda()
+    local_model.eval()
     df_test_set = pd.read_json('/home/adodd202/test.json')
     df_test_set['band_1'] = df_test_set['band_1'].apply(lambda x: np.array(x).reshape(75, 75))
     df_test_set['band_2'] = df_test_set['band_2'].apply(lambda x: np.array(x).reshape(75, 75))
@@ -615,3 +639,33 @@ def accuracy(y_pred, y_actual, topk=(1, )):
         res.append(correct_k.mul_(100.0 / batch_size))
 
     return res
+
+
+import random
+from math import floor
+
+# adapted from https://github.com/mratsim/Amazon-Forest-Computer-Vision/blob/master/main_pytorch.py
+def train_valid_split(dataset, test_size=0.25, shuffle=False, random_seed=0):
+    """ Return a list of splitted indices from a DataSet.
+    Indices can be used with DataLoader to build a train and validation set.
+
+    Arguments:
+        A Dataset
+        A test_size, as a float between 0 and 1 (percentage split) or as an int (fixed number split)
+        Shuffling True or False
+        Random seed
+    """
+    length = dataset.__len__()
+    indices = list(range(1, length))
+
+    if shuffle == True:
+        random.seed(random_seed)
+        random.shuffle(indices)
+
+    if type(test_size) is float:
+        split = floor(test_size * length)
+    elif type(test_size) is int:
+        split = test_size
+    else:
+        raise ValueError('%s should be an int or a float' % str)
+    return indices[split:], indices[:split]

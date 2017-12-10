@@ -1,10 +1,8 @@
+
 import math
 
 import torch.nn as nn
 from torchvision.models import ResNet
-
-__all__ = ['sesnet', 'IceSEBasicBlock', 'senetXX_generic']
-
 
 def conv3x3(in_planes, out_planes, stride=1):
     return nn.Conv2d(in_planes, out_planes, kernel_size=3, stride=stride, padding=1, bias=True)
@@ -134,8 +132,7 @@ def se_resnet152(num_classes):
     return model
 
 
-REDUCTION = 8
-
+REDUCTION=8
 
 class SELayer(nn.Module):
     def __init__(self, channel, reduction=REDUCTION):
@@ -201,7 +198,6 @@ class IceResNet(nn.Module):
         self.layer1 = self._make_layer(block, self.inplane, blocks=2 * n_size, stride=2)
         self.layer2 = self._make_layer(block, self.inplane * 2, blocks=2 * n_size, stride=2)
         self.layer3 = self._make_layer(block, self.inplane * 4, blocks=2 * n_size, stride=2)
-        self.layer4 = self._make_layer(block, self.inplane * 4, blocks=2 * n_size, stride=2)
         self.avgpool = nn.AdaptiveAvgPool2d(1)
 
         self.fc = nn.Linear(int(8 * self.base), num_classes)
@@ -245,13 +241,33 @@ class IceResNet(nn.Module):
         return x
 
 
-def senetXX_generic(num_classes, num_rgb, base):
-    model = IceResNet(IceSEBasicBlock, 1, num_classes, num_rgb, base)  # 56
+def senet16_RGB_10_classes(num_classes=10, num_rgb=3):
+    model = IceResNet(IceSEBasicBlock, 1, num_classes, num_rgb, 16)  # 56
     return model
 
 
-def sesnet(**kwargs):
-    """
-    Constructs a ResNet model.
-    """
-    return ResNet(**kwargs)
+def senet16_RG_1_classes(num_classes=1, num_rgb=2):
+    model = IceResNet(IceSEBasicBlock, 1, num_classes, num_rgb, 16)  # 56
+    return model
+
+
+def senet32_RG_1_classes(num_classes=1, num_rgb=2):
+    model = IceResNet(IceSEBasicBlock, 1, num_classes, num_rgb, 32)  # 56
+    return model
+
+def senet32_RGB_1_classes(num_classes=1, num_rgb=3):
+    model = IceResNet(IceSEBasicBlock, 1, num_classes, num_rgb, 32)  # 56
+    return model
+
+def senet64_RG_1_classes(num_classes=1, num_rgb=2):
+    model = IceResNet(IceSEBasicBlock, 1, num_classes, num_rgb, 64)  # 56
+    return model
+
+
+def senet128_RG_1_classes(num_classes=1, num_rgb=2):
+    model = IceResNet(IceSEBasicBlock, 1, num_classes, num_rgb, 128)  # 56
+    return model
+
+def senetXX_generic(num_classes, num_rgb, base):
+    model = IceResNet(IceSEBasicBlock, 1, num_classes, num_rgb, base)  # 56
+    return model

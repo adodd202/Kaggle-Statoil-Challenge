@@ -65,6 +65,7 @@ class GenericResNeXt(nn.Module):
         self.cardinality = cardinality
         self.base_width = base_width
         self.num_classes = num_classes
+        self.sig = nn.Sigmoid()
 
         self.conv_1_3x3 = nn.Conv2d(n_dim, 64, 3, 1, 1, bias=False)
         self.bn_1 = nn.BatchNorm2d(64)
@@ -75,8 +76,6 @@ class GenericResNeXt(nn.Module):
         self.stage_3 = self._make_layer(block, 256, layer_blocks, 2)
         self.avgpool = nn.AvgPool2d(8)
         self.classifier = nn.Linear(4096, num_classes)
-
-        self.sig = nn.Sigmoid()
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -135,7 +134,6 @@ def resnetxtXX_generic(num_classes, n_dim):
     # block, depth, cardinality, base_width
     model = GenericResNeXt(ResNeXtBottleneck, 29, 4, 4, num_classes=num_classes, n_dim=n_dim)  # 56
     return model
-
 
 def resnext(**kwargs):
     """

@@ -7,6 +7,7 @@ import torch.backends.cudnn as cudnn
 from tqdm import tqdm
 
 from utils import *
+# from losses import Eve
 
 model_names = sorted(name for name in nnmodels.__dict__
                      if name.islower() and not name.startswith("__")
@@ -17,15 +18,14 @@ parser = argparse.ArgumentParser(description='PyTorch CIFAR10 and 100 Training')
 print("Available models:" + str(model_names))
 
 parser.add_argument('--validationRatio', type=float, default=0.11, help='test Validation Split.')
-# parser.add_argument('--data_path', default='d:/db/data/ice/', type=str, help='Path to dataset')
 parser.add_argument('--optim', type=str, default='adam', help='Adam or SGD')
 parser.add_argument('--lr_period', default=10, type=float, help='learning rate schedule restart period')
 parser.add_argument('--batch_size', default=64, type=int, metavar='N', help='train batchsize')
 
 parser.add_argument('--num_classes', type=int, default=1, help='Number of Classes in data set.')
-#parser.add_argument('--data_path', default='d:/db/data/ice/', type=str, help='Path to dataset')
-parser.add_argument('--dataset', type=str, default='statoil', choices=['cifar10', 'Iceberg'],
-                    help='Choose between Cifar10/100 and ImageNet.')
+parser.add_argument('--data_path', default='d:/db/data/ice/', type=str, help='Path to dataset')
+parser.add_argument('--dataset', type=str, default='statoil', choices=['statoil', 'statoil'],
+                    help='Choose between Statoil.')
 
 # parser.add_argument('--num_classes', type=int, default=10, help='Number of Classes in data set.')
 # parser.add_argument('--data_path', default='d:/db/data/cifar10/', type=str, help='Path to dataset')
@@ -36,7 +36,7 @@ parser.add_argument('--dataset', type=str, default='statoil', choices=['cifar10'
 parser.add_argument('--imgDim', default=2, type=int, help='number of Image input dimensions')
 parser.add_argument('--base_factor', default=32, type=int, help='SENet base factor')
 
-parser.add_argument('--epochs', type=int, default=10, help='Number of epochs to train.') #66 epoch standard
+parser.add_argument('--epochs', type=int, default=66, help='Number of epochs to train.')
 parser.add_argument('--current_time', type=str, default=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'),
                     help='Current time.')
 
@@ -86,7 +86,8 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
     val_losses = []
 
     for epoch in tqdm(range(args.epochs)):
-        # model.train()
+        adjust_learning_rate(optimizer,epoch, args)
+        model.train()
         tqdm.write('\n==>>Epoch=[{:03d}/{:03d}]], {:s}, LR=[{}], Batch=[{}]'.format(epoch, args.epochs, time_string(),
                                                                                     state['lr'],
                                                                                     args.batch_size) + ' [Model={}]'.format(
@@ -147,7 +148,7 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         recorder.plot_curve(os.path.join(mPath, model_name + '_' + runId + '.png'), args, model)
         logger.append([state['lr'], train_result, val_result, accuracy_tr, accuracy_val])
 
-        if (float(val_result) < float(0.165) and float(train_result) < float(0.165)):
+        if (float(val_result) < float(0.175) and float(train_result) < float(0.175)):
             print_log("=>>EARLY STOPPING", log)
             df_pred = BinaryInference(model, args)
             savePred(df_pred, model, str(val_result) + '_' + str(epoch), train_result, args.save_path_model)
@@ -183,9 +184,9 @@ if __name__ == '__main__':
 
     # vis = visdom.Visdom(port=6006)
     trainloader, testloader, trainset, testset = loadDB(args)
-    for i in tqdm(range(0, 2)):
-    #for i in range(0, 51):
-        models = ['resnext','senet', 'vggnet', 'densenet']
+    # for i in tqdm(range(0, 51)):
+    for i in range(0, 100):
+        models = ['senet','simple']
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             fixSeed(args)
@@ -204,6 +205,7 @@ if __name__ == '__main__':
             print_log("python version : {}".format(sys.version.replace('\n', ' ')), log)
             print_log("torch  version : {}".format(torch.__version__), log)
             print_log("cudnn  version : {}".format(torch.backends.cudnn.version()), log)
+            print_log("LR :" + str(args.lr), log)
             print_log("Available models:" + str(model_names), log)
             print_log("=> Final model name '{}'".format(model_name), log)
             # print_log("=> Full model '{}'".format(model), log)
@@ -231,7 +233,7 @@ if __name__ == '__main__':
             recorder = RecorderMeter(args.epochs)  # epoc is updated
 
             val_result, train_result = BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=True)
-            if (float(val_result) < float(0.155) and float(train_result) < float(0.155)):
+            if (float(val_result) < float(0.165) and float(train_result) < float(0.165)):
                 df_pred = BinaryInference(model)
                 savePred(df_pred, model, val_result, train_result, args.save_path_model)
 
