@@ -470,7 +470,7 @@ def fixSeed(args):
 def getStatoilTrainValLoaders(args):
     fixSeed(args)
 
-    local_data = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json')
+    local_data = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
     #local_data = pd.read_json(args.data_path + '/train.json')
 
     local_data = shuffle(local_data)  # otherwise same validation set each time!
