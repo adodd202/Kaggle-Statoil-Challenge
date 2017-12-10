@@ -92,7 +92,7 @@ class WideResNet(nn.Module):
         out = F.max_pool2d(out, 4)
         # out = F.avg_pool2d(out, 2)
         out = out.view(out.size(0), -1)
-        print(out.data.shape)
+        # print(out.data.shape)
         out = self.fc(out)
 
         if self.num_classes == 1:  # BCE Loss,
@@ -102,7 +102,7 @@ class WideResNet(nn.Module):
 
 def wrnXX_generic(num_classes, imgDim):
     # depth, num_classes = 1, widen_factor = 1, dropRate = 0.0
-    model = WideResNet(depth=10, num_classes=num_classes, widen_factor=3, imgDim=imgDim, dropRate=0.7)  # 56
+    model = WideResNet(depth=10, num_classes=num_classes, widen_factor=3, imgDim=imgDim, dropRate=0.25)  # 56
     return model
 
 
