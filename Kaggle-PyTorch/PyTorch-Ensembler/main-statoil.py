@@ -153,7 +153,7 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         print ('eval_loss', (eval_loss / (len(testset))))
         if epoch > 10:
             if val_losses[epoch] > sum(val_losses[epoch-5:epoch-1])/5
-                print "Early stopping (dodd implementation)"
+                print ("Early stopping (dodd implementation)")
                 break
 
         # if (float(val_result) < float(0.175) and float(train_result) < float(0.175)):
@@ -242,7 +242,7 @@ if __name__ == '__main__':
 
             val_result, train_result = BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=True)
             if (float(val_result) < float(0.17) and float(train_result) < float(0.17)): #.165
-                print 'Saving a good file here, validation is better than .17'
+                print ('Saving a good file here, validation is better than .17')
                 df_pred = BinaryInference(model)
                 savePred(df_pred, model, val_result, train_result, args.save_path_model)
 
