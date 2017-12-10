@@ -514,14 +514,14 @@ def selectModel(args, m):
         model = nnmodels.senet32_RG_1_classes(args.num_classes, args.imgDim)
         args.batch_size = 64
         args.batch_size = 64
-        args.epochs = 76
+        args.epochs = 40 #76
         args.lr =  0.0005 # do not change !!! optimal for the Statoil data set
 
     if m.startswith('densenet'):
         model = nnmodels.densnetXX_generic(args.num_classes, args.imgDim)
         args.batch_size = 64
         args.batch_size = 64
-        args.epochs = 75
+        args.epochs = 40 #75
         args.lr = 0.05
     if m.startswith('minidensenet'):
         model = nnmodels.minidensnetXX_generic(args.num_classes, args.imgDim)

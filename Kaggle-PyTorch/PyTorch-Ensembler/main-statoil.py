@@ -149,13 +149,13 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         recorder.plot_curve(os.path.join(mPath, model_name + '_' + runId + '.png'), args, model)
         logger.append([state['lr'], train_result, val_result, accuracy_tr, accuracy_val])
 
-        if (float(val_result) < float(0.175) and float(train_result) < float(0.175)):
-            print_log("=>>EARLY STOPPING", log)
-            df_pred = BinaryInference(model, args)
-            savePred(df_pred, model, str(val_result) + '_' + str(epoch), train_result, args.save_path_model)
-            # break
-            continue
-            # adjust_learning_rate(optimizer, epoch)
+        # if (float(val_result) < float(0.175) and float(train_result) < float(0.175)):
+        #     print_log("=>>EARLY STOPPING", log)
+        #     df_pred = BinaryInference(model, args)
+        #     savePred(df_pred, model, str(val_result) + '_' + str(epoch), train_result, args.save_path_model)
+        #     # break
+        #     continue
+        #     # adjust_learning_rate(optimizer, epoch)
 
     tqdm.write('TRAIN Loss: {:.6f}'.format(running_loss / (len(trainset))), log)
     tqdm.write('VALIDATION Loss: {:.6f}'.format(eval_loss / (len(testset))), log)
@@ -186,8 +186,8 @@ if __name__ == '__main__':
     # vis = visdom.Visdom(port=6006)
     trainloader, testloader, trainset, testset = loadDB(args)
     # for i in tqdm(range(0, 51)):
-    for i in range(0, 100):
-        models = ['senet','simple']
+    for i in range(0, 10):
+        models = ['senet','densenet']
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             fixSeed(args)
