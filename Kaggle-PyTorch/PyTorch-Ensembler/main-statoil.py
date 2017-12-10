@@ -23,7 +23,7 @@ parser.add_argument('--lr_period', default=10, type=float, help='learning rate s
 parser.add_argument('--batch_size', default=64, type=int, metavar='N', help='train batchsize')
 
 parser.add_argument('--num_classes', type=int, default=1, help='Number of Classes in data set.')
-parser.add_argument('--data_path', default='d:/db/data/ice/', type=str, help='Path to dataset')
+#parser.add_argument('--data_path', default='d:/db/data/ice/', type=str, help='Path to dataset')
 parser.add_argument('--dataset', type=str, default='statoil', choices=['cifar10', 'Iceberg'],
                     help='Choose between Cifar10/100 and ImageNet.')
 

@@ -470,7 +470,7 @@ def fixSeed(args):
 def getStatoilTrainValLoaders(args):
     fixSeed(args)
 
-    local_data = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
+    local_data = pd.read_json('/home/adodd202/train.json')
     #local_data = pd.read_json(args.data_path + '/train.json')
 
     local_data = shuffle(local_data)  # otherwise same validation set each time!
@@ -553,7 +553,7 @@ def selectModel(args, m):
 
 
 def BinaryInference(local_model, args):
-    df_test_set = pd.read_json(args.data_path + '/test.json')
+    df_test_set = pd.read_json('/home/adodd202/test.json')
     df_test_set['band_1'] = df_test_set['band_1'].apply(lambda x: np.array(x).reshape(75, 75))
     df_test_set['band_2'] = df_test_set['band_2'].apply(lambda x: np.array(x).reshape(75, 75))
     df_test_set['inc_angle'] = pd.to_numeric(df_test_set['inc_angle'], errors='coerce')
