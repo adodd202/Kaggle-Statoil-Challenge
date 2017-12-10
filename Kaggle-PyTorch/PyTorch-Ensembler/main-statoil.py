@@ -185,7 +185,7 @@ if __name__ == '__main__':
     trainloader, testloader, trainset, testset = loadDB(args)
     for i in tqdm(range(0, 2)):
     #for i in range(0, 51):
-        models = ['minidensenet','resnext','lenet','senet', 'vggnet', 'densenet']
+        models = ['resnext','lenet','senet', 'vggnet', 'densenet']
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             fixSeed(args)
