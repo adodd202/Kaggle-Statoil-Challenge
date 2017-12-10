@@ -154,7 +154,7 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         if epoch > 10:
             summation = (val_losses[epoch-1]+val_losses[epoch-2]+val_losses[epoch-3]+val_losses[epoch-4]  \
                                     +val_losses[epoch-5])/5
-            if (val_losses[epoch] > summation)
+            if (val_losses[epoch] > summation):
                 print ("Early stopping (dodd implementation)")
                 break
 
