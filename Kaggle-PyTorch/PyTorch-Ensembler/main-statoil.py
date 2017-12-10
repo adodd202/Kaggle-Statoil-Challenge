@@ -36,7 +36,7 @@ parser.add_argument('--dataset', type=str, default='statoil', choices=['cifar10'
 parser.add_argument('--imgDim', default=2, type=int, help='number of Image input dimensions')
 parser.add_argument('--base_factor', default=32, type=int, help='SENet base factor')
 
-parser.add_argument('--epochs', type=int, default=1, help='Number of epochs to train.') #66 epoch standard
+parser.add_argument('--epochs', type=int, default=10, help='Number of epochs to train.') #66 epoch standard
 parser.add_argument('--current_time', type=str, default=datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'),
                     help='Current time.')
 
@@ -185,7 +185,7 @@ if __name__ == '__main__':
     trainloader, testloader, trainset, testset = loadDB(args)
     for i in tqdm(range(0, 2)):
     #for i in range(0, 51):
-        models = ['senet', 'vggnet', 'densenet']
+        models = ['senet', 'vggnet', 'densenet','simple', 'minidensenet','resnext','lenet']
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             fixSeed(args)
