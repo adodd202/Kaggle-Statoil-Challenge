@@ -183,7 +183,7 @@ if __name__ == '__main__':
 
     # vis = visdom.Visdom(port=6006)
     trainloader, testloader, trainset, testset = loadDB(args)
-    for i in tqdm(range(0, 51)):
+    for i in tqdm(range(0, 2)):
     #for i in range(0, 51):
         models = ['senet', 'wrn']
         for m in models:
