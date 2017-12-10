@@ -149,14 +149,6 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         recorder.plot_curve(os.path.join(mPath, model_name + '_' + runId + '.png'), args, model)
         logger.append([state['lr'], train_result, val_result, accuracy_tr, accuracy_val])
 
-        #Early stopping
-        print ('eval_loss', (eval_loss / (len(testset))))
-        if epoch > 10:
-            summation = (val_losses[epoch-1]+val_losses[epoch-2]+val_losses[epoch-3]+val_losses[epoch-4]  \
-                                    +val_losses[epoch-5])/5
-            if (val_losses[epoch] > summation):
-                print ("Early stopping (dodd implementation)")
-                break
 
         # if (float(val_result) < float(0.175) and float(train_result) < float(0.175)):
         #     print_log("=>>EARLY STOPPING", log)
