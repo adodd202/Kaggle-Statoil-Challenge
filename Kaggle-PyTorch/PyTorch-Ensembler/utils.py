@@ -318,7 +318,7 @@ def ensembleVer2(input_folder, output_path):
     print("Averaged scores saved to %s" % output_path)
 
 
-# Convert the np arrays into the correct dimension and type
+# Convert the np arrays into the correct dimention and type
 # Note that BCEloss requires Float in X as well as in y
 def XnumpyToTensor(x_data_np, args):
     x_data_np = np.array(x_data_np, dtype=np.float32)
@@ -331,7 +331,7 @@ def XnumpyToTensor(x_data_np, args):
     return X_tensor
 
 
-# Convert the np arrays into the correct dimension and type
+# Convert the np arrays into the correct dimention and type
 # Note that BCEloss requires Float in X as well as in y
 def YnumpyToTensor(y_data_np, args):
     y_data_np = y_data_np.reshape((y_data_np.shape[0], 1))  # Must be reshaped for PyTorch!
