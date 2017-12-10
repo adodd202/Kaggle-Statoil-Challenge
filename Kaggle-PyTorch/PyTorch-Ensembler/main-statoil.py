@@ -234,7 +234,8 @@ if __name__ == '__main__':
             recorder = RecorderMeter(args.epochs)  # epoc is updated
 
             val_result, train_result = BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=True)
-            if (float(val_result) < float(0.165) and float(train_result) < float(0.165)):
+            if (float(val_result) < float(0.17) and float(train_result) < float(0.17)): #.165
+                print 'Saving a good file here, validation is better than .17'
                 df_pred = BinaryInference(model)
                 savePred(df_pred, model, val_result, train_result, args.save_path_model)
 
