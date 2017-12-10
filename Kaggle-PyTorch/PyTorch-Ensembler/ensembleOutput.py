@@ -26,11 +26,11 @@ import nnmodels as nnmodels
 from os import listdir
 import sys
 
-'/home/adodd202/train.json'
+#'/home/adodd202/train.json'
 
-/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth
+#/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth
 
 input_folder = '/home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth'
-best_base = '/home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth/XXXXXXX'
+best_base = '/home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth/0.169687_30_0.160483_submission.csv'
 output_path = 'home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth/bestModel.csv'
 MinMaxBestBaseStacking(input_folder, best_base, output_path)
