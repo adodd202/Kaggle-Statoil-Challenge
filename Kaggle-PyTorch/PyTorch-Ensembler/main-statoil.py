@@ -151,9 +151,9 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         logger.append([state['lr'], train_result, val_result, accuracy_tr, accuracy_val])
 
 
-        if (float(val_result) < float(0.165) and float(train_result) < float(0.165)):  #.175
+        if (float(val_result) < float(0.17) and float(train_result) < float(0.17)):  #.175
             print_log("=>>EARLY STOPPING", log)
-            print ('Early Stopping, better than .165')
+            print ('Early Stopping, better than .17')
             # df_pred = BinaryInference(model, args)
             # savePred(df_pred, model, str(val_result) + '_' + str(epoch), train_result, args.save_path_model)
             break
@@ -237,8 +237,8 @@ if __name__ == '__main__':
             recorder = RecorderMeter(args.epochs)  # epoc is updated
 
             val_result, train_result = BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=True)
-            if (float(val_result) < float(0.165) and float(train_result) < float(0.165)): #.165
-                print ('Saving a good file here, validation is better than .165')
+            if (float(val_result) < float(0.17) and float(train_result) < float(0.17)): #.165
+                print ('Saving a good file here, validation is better than .17')
                 df_pred = BinaryInference(model, args)
                 savePred(df_pred, model, val_result, train_result, args.save_path_model)
 
