@@ -188,7 +188,7 @@ if __name__ == '__main__':
     trainloader, testloader, trainset, testset = loadDB(args)
     # for i in tqdm(range(0, 51)):
     for i in range(0, 12):
-        models = ['senet']
+        models = ['unet', 'senet']
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             fixSeed(args)
@@ -237,7 +237,7 @@ if __name__ == '__main__':
             val_result, train_result = BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=True)
             if (float(val_result) < float(0.168) and float(train_result) < float(0.168)): #.165
                 print ('Saving a good file here, validation is better than .17')
-                df_pred = BinaryInference(model)
+                df_pred = BinaryInference(model, args)
                 savePred(df_pred, model, val_result, train_result, args.save_path_model)
 
             logger.close()

@@ -231,7 +231,6 @@ def trainTestSplit(dataset, val_share):
                                                                                                     len(
                                                                                                         dataset) - val_offset)
 
-
 def createNewDir(BASE_FOLDER):
     parquet_dir = os.path.join(BASE_FOLDER, datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S'))
     os.makedirs(parquet_dir)
