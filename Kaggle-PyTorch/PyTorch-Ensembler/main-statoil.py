@@ -103,8 +103,7 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
             else:
                 img, label = Variable(img), Variable(label)  # RuntimeError: expected CPU tensor (got CUDA tensor)
 
-            
-            print(embedded.size())
+            #print(img.size())
             out = model(img)
             loss = criterion(out, label)
             running_loss += loss.data[0] * label.size(0)
@@ -190,7 +189,7 @@ if __name__ == '__main__':
     trainloader, testloader, trainset, testset = loadDB(args)
     # for i in tqdm(range(0, 51)):
     for i in range(0, 12):
-        models = ['unet', 'senet']
+        models = ['wrn', 'senet']
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             fixSeed(args)
