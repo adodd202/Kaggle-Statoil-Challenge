@@ -191,6 +191,7 @@ if __name__ == '__main__':
     # for i in tqdm(range(0, 51)):
     for i in range(0, 100):
         models = ['senet']
+        print ('~~~~~~~~~~~~~~~~~~~~~~~~~~~~NEXT ITERATION~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             fixSeed(args)
