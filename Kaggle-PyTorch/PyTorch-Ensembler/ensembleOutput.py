@@ -37,5 +37,5 @@ best_base = '/home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ense
 output_path = '/home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth/minMaxBaseStack.csv'
 MinMaxBestBaseStacking(input_folder, best_base, output_path)
 
-output_path = '/home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth/ensembleVer2.csv'
-ensembleVer2(input_folder, output_path)
+#output_path = '/home/adodd202/Kaggle-Statoil-Challenge/Kaggle-PyTorch/PyTorch-Ensembler/log/statoil/IceResNet/pth/ensembleVer2.csv'
+#ensembleVer2(input_folder, output_path)
