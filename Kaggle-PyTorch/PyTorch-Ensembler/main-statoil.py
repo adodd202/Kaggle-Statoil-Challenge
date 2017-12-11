@@ -103,6 +103,8 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
             else:
                 img, label = Variable(img), Variable(label)  # RuntimeError: expected CPU tensor (got CUDA tensor)
 
+            
+            print(embedded.size())
             out = model(img)
             loss = criterion(out, label)
             running_loss += loss.data[0] * label.size(0)
