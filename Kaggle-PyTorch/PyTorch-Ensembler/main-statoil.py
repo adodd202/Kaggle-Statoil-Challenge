@@ -151,12 +151,13 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         logger.append([state['lr'], train_result, val_result, accuracy_tr, accuracy_val])
 
 
-        if (float(val_result) < float(0.171) and float(train_result) < float(0.171)):  #.175
+        if (float(val_result) < float(0.165) and float(train_result) < float(0.165)):  #.175
             print_log("=>>EARLY STOPPING", log)
-            df_pred = BinaryInference(model, args)
-            savePred(df_pred, model, str(val_result) + '_' + str(epoch), train_result, args.save_path_model)
-            # break
-            continue
+            print ('Early Stopping, better than .165')
+            # df_pred = BinaryInference(model, args)
+            # savePred(df_pred, model, str(val_result) + '_' + str(epoch), train_result, args.save_path_model)
+            break
+            # continue
             # adjust_learning_rate(optimizer, epoch)
 
     tqdm.write('TRAIN Loss: {:.6f}'.format(running_loss / (len(trainset))), log)
@@ -188,8 +189,8 @@ if __name__ == '__main__':
     # vis = visdom.Visdom(port=6006)
     trainloader, testloader, trainset, testset = loadDB(args)
     # for i in tqdm(range(0, 51)):
-    for i in range(0, 12):
-        models = ['wrn', 'senet']
+    for i in range(0, 100):
+        models = ['senet']
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
             fixSeed(args)
@@ -236,8 +237,8 @@ if __name__ == '__main__':
             recorder = RecorderMeter(args.epochs)  # epoc is updated
 
             val_result, train_result = BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=True)
-            if (float(val_result) < float(0.168) and float(train_result) < float(0.168)): #.165
-                print ('Saving a good file here, validation is better than .17')
+            if (float(val_result) < float(0.165) and float(train_result) < float(0.165)): #.165
+                print ('Saving a good file here, validation is better than .165')
                 df_pred = BinaryInference(model, args)
                 savePred(df_pred, model, val_result, train_result, args.save_path_model)
 
