@@ -533,7 +533,7 @@ def selectModel(args, m):
         args.batch_size = 64
         args.batch_size = 64
         args.epochs = 88
-        args.lr = 0.00005
+        args.lr = 0.0005
     if m.startswith('resnext'):
         model = nnmodels.resnetxtXX_generic(args.num_classes, args.imgDim)
         args.batch_size = 16
