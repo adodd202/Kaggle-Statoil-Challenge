@@ -87,6 +87,7 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
     val_losses = []
 
     for epoch in tqdm(range(args.epochs)):
+        flag = 0
         adjust_learning_rate(optimizer,epoch, args)
         model.train()
         tqdm.write('\n==>>Epoch=[{:03d}/{:03d}]], {:s}, LR=[{}], Batch=[{}]'.format(epoch, args.epochs, time_string(),
@@ -150,7 +151,14 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         recorder.plot_curve(os.path.join(mPath, model_name + '_' + runId + '.png'), args, model)
         logger.append([state['lr'], train_result, val_result, accuracy_tr, accuracy_val])
 
+        #Early stopping for a bad model.
+        if (float(val_result) < float(0.19)):
+            flag = 1
+        if (float(val_result) > float(0.3)) and (flag == 1):
+            print ('this model will not be saved, the validation error went too high, next model')
+            break
 
+        #Early stopping for a good model.
         if (float(val_result) < float(0.155) and float(train_result) < float(0.155)):  #.175
             print_log("=>>EARLY STOPPING", log)
             print ('Early Stopping, better than .155')
