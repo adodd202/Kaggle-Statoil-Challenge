@@ -152,10 +152,10 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         logger.append([state['lr'], train_result, val_result, accuracy_tr, accuracy_val])
 
         #Early stopping for a bad model.
-        if (float(val_result) < float(0.19)):
+        if (float(val_result) < float(0.24)):
             print ('hello good range')
             flag = 1
-        if (float(val_result) > float(0.3)) and (flag == 1):
+        if (float(val_result) > float(0.32)) and (flag == 1):
             print ('this model will not be saved, the validation error went too high, next model')
             break
 
@@ -198,8 +198,8 @@ if __name__ == '__main__':
     # vis = visdom.Visdom(port=6006)
     trainloader, testloader, trainset, testset = loadDB(args)
     # for i in tqdm(range(0, 51)):
-    for i in range(0, 100):
-        models = ['vggnet','lenet','wrn','resnext']
+    for i in range(0, 10):
+        models = ['lenet','vggnet','wrn','resnext']
         print ('~~~~~~~~~~~~~~~~~~~~~~~~~~~~NEXT ITERATION~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
