@@ -51,7 +51,7 @@ class NetworkBlock(nn.Module):
 
 
 class WideResNet(nn.Module):
-    def __init__(self, depth, num_classes=1, widen_factor=1, imgDim=3, dropRate=0.0):
+    def __init__(self, depth, num_classes=1, widen_factor=1, imgDim=1, dropRate=0.0):
         super(WideResNet, self).__init__()
         nChannels = [16, 16 * widen_factor, 32 * widen_factor, 64 * widen_factor]
         assert (depth - 4) % 6 == 0, 'depth should be 6n+4'
@@ -70,7 +70,7 @@ class WideResNet(nn.Module):
         # global average pooling and classifier
         self.bn1 = nn.BatchNorm2d(nChannels[3])
         self.relu = nn.ReLU(inplace=True)
-        self.fc = nn.Linear(37632, self.num_classes)
+        self.fc = nn.Linear(4096, self.num_classes)
         self.nChannels = nChannels[3]
         self.sig = nn.Sigmoid()
         for m in self.modules():
@@ -102,7 +102,7 @@ class WideResNet(nn.Module):
 
 def wrnXX_generic(num_classes, imgDim):
     # depth, num_classes = 1, widen_factor = 1, dropRate = 0.0
-    model = WideResNet(depth=10, num_classes=num_classes, widen_factor=3, imgDim=imgDim, dropRate=0.25)  # 56
+    model = WideResNet(depth=10, num_classes=num_classes, widen_factor=4, imgDim=imgDim, dropRate=0.25)  # 56
     return model
 
 

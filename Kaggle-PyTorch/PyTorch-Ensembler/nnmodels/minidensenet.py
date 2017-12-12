@@ -77,9 +77,13 @@ class MiniDenseNet(nn.Module):
         nChannels += nDenseBlocks * growthRate
 
         self.bn1 = nn.BatchNorm2d(nChannels)
-        self.fc = nn.Linear(432, nClasses)
+        if bottleneck == False:
+            self.fc = nn.Linear(768, nClasses)
+        else:
+            self.fc = nn.Linear(432, nClasses)
 
         self.sig = nn.Sigmoid()
+        self.num_classes =nClasses
 
         for m in self.modules():
             if isinstance(m, nn.Conv2d):
@@ -109,8 +113,8 @@ class MiniDenseNet(nn.Module):
         # print(out.data.shape)
         out = F.avg_pool2d(F.relu(self.bn1(out)), 8)
         out = out.view(out.size(0), -1)
-        # print(out.data.shape)
-        out = self.fc(out)
+        print(out.data.shape)
+        # out = self.fc(out)
         if self.num_classes == 1:  # BCE Loss,
             out = self.sig(out)
         return out
@@ -127,5 +131,5 @@ class MiniDenseNet(nn.Module):
 
 
 def minidensnetXX_generic(num_classes, n_dim):
-    model = MiniDenseNet(growthRate=48, depth=12, reduction=0.5, bottleneck=True, nClasses=num_classes, n_dim=n_dim)
+    model = MiniDenseNet(growthRate=48, depth=20, reduction=0.5, bottleneck=True, nClasses=num_classes, n_dim=n_dim)
     return model
