@@ -85,9 +85,9 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         criterion.cuda()
     all_losses = []
     val_losses = []
+    flag = 0
 
     for epoch in tqdm(range(args.epochs)):
-        flag = 0
         adjust_learning_rate(optimizer,epoch, args)
         model.train()
         tqdm.write('\n==>>Epoch=[{:03d}/{:03d}]], {:s}, LR=[{}], Batch=[{}]'.format(epoch, args.epochs, time_string(),
@@ -153,6 +153,7 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
 
         #Early stopping for a bad model.
         if (float(val_result) < float(0.19)):
+            print ('hello good range')
             flag = 1
         if (float(val_result) > float(0.3)) and (flag == 1):
             print ('this model will not be saved, the validation error went too high, next model')
