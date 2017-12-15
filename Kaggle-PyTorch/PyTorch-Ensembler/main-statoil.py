@@ -151,6 +151,8 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         recorder.plot_curve(os.path.join(mPath, model_name + '_' + runId + '.png'), args, model)
         logger.append([state['lr'], train_result, val_result, accuracy_tr, accuracy_val])
 
+        if epoch > 
+
         #Early stopping for a bad model.
         if (float(val_result) < float(0.24)):
             print ('hello good range')
@@ -160,7 +162,7 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
             break
 
         #Early stopping for a good model.
-        if (float(val_result) < float(0.155) and float(train_result) < float(0.155)):  #.175
+        if (float(val_result) < float(0.165) and float(train_result) < float(0.165)):  #.175
             print_log("=>>EARLY STOPPING", log)
             print ('Early Stopping, better than .155')
             # df_pred = BinaryInference(model, args)
@@ -247,7 +249,7 @@ if __name__ == '__main__':
             recorder = RecorderMeter(args.epochs)  # epoc is updated
 
             val_result, train_result = BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=True)
-            if (float(val_result) < float(0.155) and float(train_result) < float(0.155)): #.165
+            if (float(val_result) < float(0.165) and float(train_result) < float(0.165)): #.165
                 print ('Saving a good file here, validation is better than .155')
                 df_pred = BinaryInference(model, args)
                 savePred(df_pred, model, val_result, train_result, args.save_path_model)
