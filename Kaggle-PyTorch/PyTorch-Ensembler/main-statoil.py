@@ -198,8 +198,8 @@ if __name__ == '__main__':
     # vis = visdom.Visdom(port=6006)
     trainloader, testloader, trainset, testset = loadDB(args)
     # for i in tqdm(range(0, 51)):
-    for i in range(0, 10):
-        models = ['wrn','resnext','vggnet']
+    for i in range(0, 500):
+        models = ['senet']
         print ('~~~~~~~~~~~~~~~~~~~~~~~~~~~~NEXT ITERATION~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
         for m in models:
             runId = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
