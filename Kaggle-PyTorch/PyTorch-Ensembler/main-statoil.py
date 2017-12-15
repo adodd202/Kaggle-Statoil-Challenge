@@ -151,15 +151,13 @@ def BinaryTrainAndValidate(model, criterion, optimizer, runId, debug=False):
         recorder.plot_curve(os.path.join(mPath, model_name + '_' + runId + '.png'), args, model)
         logger.append([state['lr'], train_result, val_result, accuracy_tr, accuracy_val])
 
-        if epoch > 
-
-        #Early stopping for a bad model.
-        if (float(val_result) < float(0.24)):
-            print ('hello good range')
-            flag = 1
-        if (float(val_result) > float(0.32)) and (flag == 1):
-            print ('this model will not be saved, the validation error went too high, next model')
-            break
+        # #Early stopping for a bad model.
+        # if (float(val_result) < float(0.24)):
+        #     print ('hello good range')
+        #     flag = 1
+        # if (float(val_result) > float(0.32)) and (flag == 1):
+        #     print ('this model will not be saved, the validation error went too high, next model')
+        #     break
 
         #Early stopping for a good model.
         if (float(val_result) < float(0.165) and float(train_result) < float(0.165)):  #.175
