@@ -27,7 +27,7 @@ from keras.optimizers import rmsprop
 from keras.layers.advanced_activations import LeakyReLU, PReLU
 from keras.optimizers import SGD
 from keras.callbacks import ModelCheckpoint, Callback, EarlyStopping
-
+from sklearn.model_selection import train_test_split
 
 
 train = pd.read_json('../train.json') #online is '../train.json'
