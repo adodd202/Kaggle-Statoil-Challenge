@@ -75,7 +75,7 @@ x_train, x_val, y_train, y_val = train_test_split(
 # convert class vectors to binary class matrices
 num_classes = 2
 y_train = keras.utils.to_categorical(y_train, num_classes)
-y_test = keras.utils.to_categorical(y_test, num_classes)
+y_val = keras.utils.to_categorical(y_val, num_classes)
 
 print ("x_train", x_train.shape)
 print ("y_train", y_train.shape)
