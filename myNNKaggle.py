@@ -72,6 +72,10 @@ x_test = np.concatenate([x_band_test_1[:, :, :, np.newaxis]
 x_train, x_val, y_train, y_val = train_test_split(
 								   x_train, y_train, test_size=0.3, random_state=42)
 
+# convert class vectors to binary class matrices
+y_train = keras.utils.to_categorical(y_train, num_classes)
+y_test = keras.utils.to_categorical(y_test, num_classes)
+
 print ("x_train", x_train.shape)
 print ("y_train", y_train.shape)
 print ("x_val", x_val.shape)
