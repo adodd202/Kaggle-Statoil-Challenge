@@ -120,7 +120,7 @@ model.compile(loss=keras.losses.categorical_crossentropy,
               optimizer=keras.optimizers.Adadelta(), # ADAM or SGD
               metrics=['accuracy'])
 
-epochs = 10
+epochs = 5
 model.fit(x_train, y_train,
           batch_size=batch_size,
           epochs=epochs,
@@ -130,3 +130,8 @@ score = model.evaluate(x_val, y_val, verbose=0)
 
 print('Test loss:', score[0])
 print('Test accuracy:', score[1])
+
+from keras.utils import plot_model
+plot_model(model, show_shapes = True, to_file='model.png')
+
+
