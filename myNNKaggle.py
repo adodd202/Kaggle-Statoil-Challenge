@@ -30,11 +30,11 @@ from keras.callbacks import ModelCheckpoint, Callback, EarlyStopping
 
 
 
-#train = pd.read_json('../train.json') #online is '../train.json'
-train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
+train = pd.read_json('../train.json') #online is '../train.json'
+#train = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/train.json')
 y_train=train['is_iceberg']
-#test = pd.read_json('../test.json')
-test = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json') #online is '../test.json'
+test = pd.read_json('../test.json')
+#test = pd.read_json('/Users/adodd202/Documents/GitHub/Statoil_Data/test.json') #online is '../test.json'
 
 
 ###### Deal with incident angle train and test data ################
