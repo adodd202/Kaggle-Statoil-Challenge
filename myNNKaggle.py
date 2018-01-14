@@ -73,6 +73,7 @@ x_train, x_val, y_train, y_val = train_test_split(
 								   x_train, y_train, test_size=0.3, random_state=42)
 
 # convert class vectors to binary class matrices
+num_classes = 2
 y_train = keras.utils.to_categorical(y_train, num_classes)
 y_test = keras.utils.to_categorical(y_test, num_classes)
 
@@ -98,7 +99,6 @@ print ("x_test", x_test.shape)
 ############################################################
 
 batch_size = 32
-num_classes = 2
 model = Sequential()
 model.add(Conv2D(batch_size, kernel_size=(3, 3),
                  activation='relu',
