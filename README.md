@@ -1,3 +1,9 @@
+# Introduction
+Preface: All credit to the starter code on this project originated from Xifeng Guo.
+
+Using this pre-existing framework, I experimented with training different neural network models for this project. I also experimented with implementing early stopping to prevent overfitting and trained various combinations of models on Google Cloud with a P100 GPU Compute Instance.
+
+
 # CapsNet-Keras
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/XifengGuo/CapsNet-Keras/blob/master/LICENSE)
 
