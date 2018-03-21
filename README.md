@@ -3,6 +3,12 @@ Preface: All credit to the starter code on this project originated from Xifeng G
 
 Using this pre-existing framework, I experimented with training different neural network models for this project. I also experimented with implementing early stopping to prevent overfitting and trained various combinations of models on Google Cloud with a P100 GPU Compute Instance.
 
+The main purpose of this project was to get started with Google Cloud Compute and deep learning tools such as Tensorflow, Pytorch, and Keras. It gave me hands on experience with image classification beyond what I learned in my computer vision class in graduate school and showed me the challenges of building data pipelines. I also learned a lot from the object oriented data structure and have implemented this in my more recent projects. Finally, many machine learning concepts such as overfitting, K-fold cross validation, rmsle, rmse, convolution, dropout, generalization and clustering (which was used in the winning submission) were elucidated for me.
+
+-Andrew Dodd
+
+The following is the original readme from Xifeng Guo:
+
 
 # CapsNet-Keras
 [![License](https://img.shields.io/github/license/mashape/apistatus.svg?maxAge=2592000)](https://github.com/XifengGuo/CapsNet-Keras/blob/master/LICENSE)
